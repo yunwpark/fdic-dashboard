@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FDIC 2025:Q4 Aggregate Balance Sheet</title>
+  <link rel="stylesheet" href="static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script>
+    window.FDIC_DATA = {
+      assetChart: {{ asset_chart | tojson }},
+      fundingChart: {{ funding_chart | tojson }}
+    };
+  </script>
+  <script src="static/app.js" defer></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">PROJECT 1 · OFFICIAL FDIC DATA</p>
+        <h1>Aggregate Balance Sheet of FDIC-Insured Institutions</h1>
+        <p class="subtitle">Commercial banks and savings institutions at December 31, 2025</p>
+      </div>
+      <div class="status-card">
+        <span class="status-dot"></span>
+        <strong>Accounting validation passed</strong>
+        <small>Assets equal liabilities plus equity</small>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="toolbar" aria-label="Data controls">
+      <div>
+        <strong>{{ '{:,}'.format(institution_count) }} institutions</strong>
+        <span>Snapshot built: {{ loaded_at }}</span>
+      </div>
+      <div class="actions">
+        <a href="fdic_2025q4_aggregate_balance_sheet.csv" download>Aggregate CSV</a>
+        <a href="fdic_2025q4_institution_financials.csv" download>Institution CSV</a>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="Principal totals">
+      <article><span>Total assets</span><strong>${{ '%.3f'|format(total_assets / 1000) }}T</strong></article>
+      <article><span>Total liabilities</span><strong>${{ '%.3f'|format(total_liabilities / 1000) }}T</strong></article>
+      <article><span>Total equity</span><strong>${{ '%.3f'|format(total_equity / 1000) }}T</strong></article>
+      <article><span>Deposits</span><strong>${{ '%.3f'|format(deposits / 1000) }}T</strong></article>
+    </section>
+
+    <section class="chart-grid">
+      <article class="panel">
+        <h2>Asset composition</h2>
+        <p>Major categories in billions of U.S. dollars</p>
+        <div class="chart-wrap"><canvas id="asset-chart"></canvas></div>
+      </article>
+      <article class="panel">
+        <h2>Funding structure</h2>
+        <p>Deposits, other liabilities, and book equity</p>
+        <div class="chart-wrap"><canvas id="funding-chart"></canvas></div>
+      </article>
+    </section>
+
+    <section class="panel table-panel">
+      <div class="section-heading">
+        <div>
+          <h2>Aggregate balance sheet</h2>
+          <p>FDIC amounts converted from thousands to billions of dollars</p>
+        </div>
+        <label>Filter accounts <input id="account-filter" type="search" placeholder="Loans, deposits…"></label>
+      </div>
+      <div class="table-scroll">
+        <table id="balance-sheet-table">
+          <thead><tr><th>Section</th><th>Account</th><th class="number">$ billions</th><th class="number">% of assets</th></tr></thead>
+          <tbody>
+          {% for row in rows %}
+            <tr data-account="{{ row.account | lower }}">
+              <td>{{ row.section }}</td>
+              <td class="{% if row.row_type == 'total' %}total{% endif %}">{{ row.account }}</td>
+              <td class="number">{{ '{:,.3f}'.format(row.amount_usd_billions) }}</td>
+              <td class="number">{{ '{:,.2f}'.format(row.share_of_total_assets_pct) }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="interpretation">
+      <h2>Financial interpretation</h2>
+      <div class="interpretation-grid">
+        <article><strong>Loans drive the asset portfolio</strong><p>Net loans and leases constitute slightly more than half of aggregate assets.</p></article>
+        <article><strong>Deposits dominate funding</strong><p>Deposits finance nearly four-fifths of aggregate assets.</p></article>
+        <article><strong>Book equity absorbs losses</strong><p>The aggregate equity ratio is informative, but it is not a regulatory CET1 ratio.</p></article>
+      </div>
+      <p class="caution">The results aggregate institution balance sheets without eliminating interbank positions. Aggregation can conceal variation across institutions, and a single quarter cannot establish a trend.</p>
+    </section>
+  </main>
+
+  <footer><div class="container">Source: FDIC BankFind Suite API · Report date 2025-12-31</div></footer>
+</body>
+</html>
+

@@ -1,0 +1,68 @@
+:root {
+  --navy: #17365d;
+  --blue: #2878b5;
+  --cyan: #48a9c5;
+  --ink: #17202a;
+  --muted: #627181;
+  --line: #d7e0e7;
+  --surface: #f5f8fa;
+  --green: #247a50;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, Aptos, "Segoe UI", sans-serif; color: var(--ink); background: #fff; }
+.container { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+.hero { background: linear-gradient(135deg, var(--navy), #214e78); color: white; padding: 54px 0 48px; border-top: 7px solid var(--cyan); }
+.hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: center; }
+.eyebrow { color: #8fd3e5; font-size: 12px; font-weight: 800; letter-spacing: .15em; }
+h1 { max-width: 780px; margin: 10px 0; font-size: clamp(32px, 5vw, 52px); line-height: 1.04; }
+.subtitle { margin: 15px 0 0; color: #d8e5ef; font-size: 18px; }
+.status-card { display: grid; grid-template-columns: 14px 1fr; gap: 7px 10px; width: 285px; padding: 20px; background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.22); border-radius: 14px; }
+.status-card small { grid-column: 2; color: #d7e4ed; }
+.status-dot { width: 12px; height: 12px; margin-top: 4px; border-radius: 50%; background: #4dd08a; box-shadow: 0 0 0 4px rgba(77,208,138,.16); }
+.toolbar { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin: 28px 0 20px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.toolbar span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 9px; }
+.actions a, button { padding: 10px 13px; border-radius: 8px; border: 1px solid var(--blue); background: white; color: var(--blue); font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+button { background: var(--blue); color: white; }
+button:disabled { opacity: .55; cursor: wait; }
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
+.metrics article { padding: 20px; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 25px rgba(23,54,93,.05); }
+.metrics span { display: block; color: var(--muted); font-size: 13px; }
+.metrics strong { display: block; margin-top: 7px; color: var(--navy); font-size: 27px; }
+.chart-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 20px; }
+.panel { margin-bottom: 20px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: white; box-shadow: 0 8px 30px rgba(23,54,93,.055); }
+.panel h2, .interpretation h2 { margin: 0 0 5px; color: var(--navy); }
+.panel p { margin: 0 0 18px; color: var(--muted); }
+.chart-wrap { position: relative; min-height: 330px; }
+.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; }
+.section-heading label { color: var(--muted); font-size: 12px; }
+input { display: block; min-width: 220px; margin-top: 5px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 7px; font: inherit; }
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+th { padding: 12px 10px; background: var(--navy); color: white; text-align: left; }
+td { padding: 11px 10px; border-bottom: 1px solid #e7edf1; }
+tbody tr:hover { background: #f0f6fa; }
+.number { text-align: right; font-variant-numeric: tabular-nums; }
+.total { font-weight: 800; color: var(--navy); }
+.interpretation { margin: 18px 0 46px; }
+.interpretation-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.interpretation article { padding: 20px; background: var(--surface); border-left: 4px solid var(--cyan); border-radius: 8px; }
+.interpretation article p { margin-bottom: 0; color: var(--muted); line-height: 1.5; }
+.caution { margin-top: 18px; padding: 16px; background: #fff8e8; border: 1px solid #ead49a; border-radius: 8px; color: #684f16; }
+footer { padding: 24px 0; background: #eaf0f4; color: var(--muted); font-size: 13px; }
+
+@media (max-width: 850px) {
+  .hero-grid, .chart-grid { grid-template-columns: 1fr; }
+  .status-card { width: 100%; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .toolbar, .section-heading { align-items: stretch; flex-direction: column; }
+  .interpretation-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 500px) {
+  .container { width: min(100% - 22px, 1180px); }
+  .metrics { grid-template-columns: 1fr; }
+  .actions a, .actions button { width: 100%; text-align: center; }
+}
+
